@@ -15,7 +15,6 @@ hooks:
             post-receive:
                 - MakeFolder
                 - CheckoutHeadToTemp
-                - GetSpyc
                 - SymlinkHook
                 - MoveIntoPlace
 
@@ -27,8 +26,6 @@ hooks:
         CheckoutHeadToTemp:
             - "git --work-tree=__TEMP__/__HASH__ checkout -f"
             - "cp -r . __TEMP__/__HASH__/.git"
-        GetSpyc:
-            - "curl http://raw.github.com/mustangostang/spyc/master/Spyc.php > __TEMP__/__HASH__/hooks/spyc.php"
         SymlinkHook:
             - "ln -sfT __ROOT__/hook __TEMP__/.git/post-receive"
         MoveIntoPlace:
