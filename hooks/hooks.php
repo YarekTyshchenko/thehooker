@@ -100,9 +100,10 @@ class gitHooks {
 				// Loop until replacements don't change the string any more
 				while (true) {
 					foreach($yaml_vars AS $var => $val) {
-						$oldHook = $hook;
+						$oldHook = sha1($hook);
 						$hook = str_replace($var, $val, $hook);
-						if ($oldHook !== $hook) {
+						echo "Replacing $val with $var".PHP_EOL;
+						if ($oldHook !== sha1($hook)) {
 							continue;
 						}
 					}
