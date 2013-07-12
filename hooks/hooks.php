@@ -104,7 +104,7 @@ class gitHooks {
 						$hook = str_replace($var, $val, $hook);
 						echo "Replacing $val with $var".PHP_EOL;
 						if ($oldHook !== sha1($hook)) {
-							continue;
+							continue 2; // Skip to the while loop
 						}
 					}
 					break;
