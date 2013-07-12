@@ -11,7 +11,7 @@ hooks:
         execute:
             # Get the HEAD hash and 
             HASH: "git rev-parse --short HEAD"
-        plain:
+        declare:
             ROOT_DIR: "/var/www/your-project-root"
 
     ## Per branch steps

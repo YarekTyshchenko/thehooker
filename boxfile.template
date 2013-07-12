@@ -1,0 +1,25 @@
+# Template deployment boxfile
+hooks:
+    config_vars:
+        execute:
+            # Get the HEAD hash and 
+            __HASH__: "git describe --always"
+            __BRANCH__: "git rev-parse --symbolic-full-name --abbrev-ref HEAD"
+        declare:
+            __TEMP__: "build"
+
+    branches:
+        master:
+            post-receive:
+                # - MakeFolder
+                # - CheckoutHead
+                # - Symlink
+    # Generic steps, use the config_vars array for specifics
+    steps:
+        # Make a folder from the HASH 
+        MakeFolder:
+            - "mkdir -p __TEMP__/__HASH__"
+        CheckoutHead:
+            - "git --work-tree=__TEMP__/__HASH__ checkout -f"
+        Symlink:
+            - "ln -sfT __TEMP__/__HASH__ __APP__"

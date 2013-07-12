@@ -73,7 +73,9 @@ class gitHooks {
 		foreach (self::_a($this->config, 'hooks', 'config_vars', 'execute') AS $var => $val) {
 			$yaml_vars[$var] = str_replace("\n", "", shell_exec($val));
 		}
-		foreach (self::_a($this->config, 'hooks', 'config_vars', 'plain') AS $var => $val) {
+		// Reuse the executed variables in the declare list
+		$declare = array_merge(self::_a($this->config, 'hooks', 'config_vars', 'declare'), $yaml_vars);
+		foreach ($declare AS $var => $val) {
 			$yaml_vars[$var] = str_replace("\n", "", $val);
 		}
 
