@@ -99,13 +99,12 @@ class gitHooks {
 			foreach(self::_a($this->config, 'hooks', 'steps', $stepname) AS $hook) {
 				// Loop until replacements don't change the string any more
 				while (true) {
+					$hookhash = sha1($hook);
 					foreach($yaml_vars AS $var => $val) {
-						$oldHook = sha1($hook);
 						$hook = str_replace($var, $val, $hook);
-						echo "Replacing $val with $var".PHP_EOL;
-						if ($oldHook !== sha1($hook)) {
-							continue 2; // Skip to the while loop
-						}
+					}
+					if ($hookhash !== sha1($hook)) {
+						continue; // Skip to the while loop
 					}
 					break;
 				}
