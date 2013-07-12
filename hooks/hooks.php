@@ -73,9 +73,7 @@ class gitHooks {
 		foreach (self::_a($this->config, 'hooks', 'config_vars', 'execute') AS $var => $val) {
 			$yaml_vars[$var] = str_replace("\n", "", shell_exec($val));
 		}
-		// Reuse the executed variables in the declare list
-		$declare = array_merge(self::_a($this->config, 'hooks', 'config_vars', 'declare'), $yaml_vars);
-		foreach ($declare AS $var => $val) {
+		foreach (self::_a($this->config, 'hooks', 'config_vars', 'plain') AS $var => $val) {
 			$yaml_vars[$var] = str_replace("\n", "", $val);
 		}
 
@@ -99,9 +97,16 @@ class gitHooks {
 		// Now, loop through the branch stepsi
 		foreach(self::_a($this->config, 'hooks', 'branches', $this->branch, $this->stage) AS $stepname) {
 			foreach(self::_a($this->config, 'hooks', 'steps', $stepname) AS $hook) {
-				// Now, see if there are any replacements
-				foreach($yaml_vars AS $var => $val) {
-					$hook = str_replace($var, $val, $hook);
+				// Loop until replacements don't change the string any more
+				while (true) {
+					foreach($yaml_vars AS $var => $val) {
+						$oldHook = $hook;
+						$hook = str_replace($var, $val, $hook);
+						if ($oldHook !== $hook) {
+							continue;
+						}
+					}
+					break;
 				}
 				echo passthru($hook);
 			}
