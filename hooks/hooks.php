@@ -91,6 +91,9 @@ class gitHooks {
 		// First are there any vars? If so, set them
 		$yaml_vars = $this->_buildYamlVars();
 
+		// Get out of the .git directory where we are being called
+		chdir('..');
+
 		// Now, loop through the branch stepsi
 		foreach(self::_a($this->config, 'hooks', 'branches', $this->branch, $this->stage) AS $stepname) {
 			foreach(self::_a($this->config, 'hooks', 'steps', $stepname) AS $hook) {
