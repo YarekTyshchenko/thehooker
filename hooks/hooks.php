@@ -73,7 +73,7 @@ class gitHooks {
 		foreach (self::_a($this->config, 'hooks', 'config_vars', 'execute') AS $var => $val) {
 			$yaml_vars[$var] = str_replace("\n", "", shell_exec($val));
 		}
-		foreach (self::_a($this->config, 'hooks', 'config_vars', 'plain') AS $var => $val) {
+		foreach (self::_a($this->config, 'hooks', 'config_vars', 'declare') AS $var => $val) {
 			$yaml_vars[$var] = str_replace("\n", "", $val);
 		}
 
